@@ -9,9 +9,9 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 // Conexión a Base de datos
-const uri = 'mongodb+srv://Yiseth:1234@cluster0.vfjmkzb.mongodb.net/ayuda';
+const uri = 'mongodb+srv://Yiseth:1234@cluster0.vfjmkzb.mongodb.net/ayuda2';
 mongoose.connect(uri,
-    { useNewUrlParser: true, useUnifiedTopology: true }
+    { useNewUrlParser: true}
 )
     .then(() => console.log('Base de datos conectada'))
     .catch(e => console.log('error db:', e))

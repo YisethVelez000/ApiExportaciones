@@ -6,22 +6,46 @@ const cors = require('cors');
 const Joi = require('@hapi/joi');
 const bodyParser = require('body-parser');
 
+// Función para obtener el precio del dólar
+async function obtenerPrecioDolar() {
+    try {
+      const url = 'https://www.datos.gov.co/resource/mcec-87by.json';
+      const response = await fetch(url);
+      const data = await response.json();
+  
+      // Asegúrate de que la respuesta tenga datos y al menos un elemento
+      if (Array.isArray(data) && data.length > 0) {
+        const precioDolar = parseFloat(data[0].valor); // Suponiendo que el campo se llama 'valor'
+        return precioDolar;
+      } else {
+        console.log('No se encontraron datos válidos en la respuesta.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener el precio del dólar:', error.message);
+      return null;
+    }
+  }
+  
+  // Función para obtener el precio actual del dólar y establecerlo como valor predeterminado
+
+   var precioDolar = obtenerPrecioDolar();
+
 const SchemaRegister = Joi.object({
     producto: Joi.string().min(3).max(255).required(),
     kilos: Joi.number().required(),
     precioKilo: Joi.number().required(),
-    precioActualDolar: Joi.number().required()
+    precioActualDolar: Joi.number().default(precioDolar)
 });
 
 //usamos cors para poder hacer peticiones desde el front
 router.use(cors());
 
-
-
 // Configura el body parser
 router.use(bodyParser.urlencoded({ extended: false })); 
 
 router.post('/exportacion', async (req, res) => {
+    const precioDolar = await obtenerPrecioDolar();
     try {
         const { error } = SchemaRegister.validate(req.body);
         if (error) {
@@ -31,12 +55,12 @@ router.post('/exportacion', async (req, res) => {
             });
         }
 
-        const { producto, kilos, precioKilo, precioActualDolar } = req.body;
+        const { producto, kilos, precioKilo } = req.body;
         const newExportacion = new Exportacion({
             producto,
             kilos,
             precioKilo,
-            precioActualDolar
+            precioActualDolar:precioDolar
         });
         const exportacion = await newExportacion.save();
         res.json({
@@ -76,7 +100,7 @@ router.put('/exportacion/:id', async (req, res) => {
                 mensaje: error.details[0].message
             });
         }
-        const { producto, kilos, precioKilo, precioActualDolar } = req.body;
+        const { producto, kilos, precioKilo} = req.body;
         const newExportacion = {
             producto,
             kilos,
