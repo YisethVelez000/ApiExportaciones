@@ -105,7 +105,6 @@ router.put('/exportacion/:id', async (req, res) => {
             producto,
             kilos,
             precioKilo,
-            precioActualDolar
         };
         const exportacion = await Exportacion.findByIdAndUpdate(req.params.id, newExportacion);
         res.json({
