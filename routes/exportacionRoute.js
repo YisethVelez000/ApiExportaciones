@@ -15,7 +15,7 @@ async function obtenerPrecioDolar() {
   
       // Asegúrate de que la respuesta tenga datos y al menos un elemento
       if (Array.isArray(data) && data.length > 0) {
-        const precioDolar = parseFloat(data[0].valor); // Suponiendo que el campo se llama 'valor'
+        const precioDolar = parseDouble(data[0].valor); // Suponiendo que el campo se llama 'valor'
         return precioDolar;
       } else {
         console.log('No se encontraron datos válidos en la respuesta.');
