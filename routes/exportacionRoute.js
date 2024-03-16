@@ -33,8 +33,8 @@ async function obtenerPrecioDolar() {
 
 const SchemaRegister = Joi.object({
     producto: Joi.string().min(3).max(255).required(),
-    kilos: Joi.number().float().required(),
-    precioKilo: Joi.number().float().required(),
+    kilos: Joi.number().required(),
+    precioKilo: Joi.number().required(),
     precioActualDolar: Joi.number().default(precioDolar)
 });
 
