@@ -9,7 +9,7 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 // Conexión a Base de datos
-const uri = 'mongodb+srv://Yiseth:1234@cluster0.vfjmkzb.mongodb.net/ayuda2';
+const uri = 'mongodb+srv://Yiseth:.u9cPTUCK2K-mK2@cluster0.vfjmkzb.mongodb.net/ayuda2';
 mongoose.connect(uri,
     { useNewUrlParser: true}
 )
